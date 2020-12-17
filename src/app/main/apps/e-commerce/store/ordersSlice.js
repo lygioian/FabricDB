@@ -4,16 +4,15 @@ import axios from 'axios';
 export const getOrders = createAsyncThunk('eCommerceApp/orders/getOrders', async () => {
 	try {
 		const response = await axios.get(`${process.env.REACT_APP_API_URI}/supplier`, {
-		headers: {'Content-Type': 'application/json'}});
-		console.log(response)
+			headers: { 'Content-Type': 'application/json' }
+		});
+		console.log(response);
 		const data = await response.data;
-		console.log("Response Data", data[0])
-		return {data};
-	}catch(err) {
-		console.log(err.response)
+		console.log('Response Data', data[0]);
+		return { data };
+	} catch (err) {
+		console.log(err.response);
 	}
-
-	
 });
 
 const ordersAdapter = createEntityAdapter({});
@@ -33,6 +32,24 @@ const ordersSlice = createSlice({
 				state.searchText = action.payload;
 			},
 			prepare: event => ({ payload: event.target.value || '' })
+		},
+		openNewContactDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'new',
+				props: {
+					open: true
+				},
+				data: null
+			};
+		},
+		closeNewContactDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'new',
+				props: {
+					open: false
+				},
+				data: null
+			};
 		}
 	},
 	extraReducers: {
@@ -40,6 +57,6 @@ const ordersSlice = createSlice({
 	}
 });
 
-export const { setOrdersSearchText } = ordersSlice.actions;
+export const { setOrdersSearchText, openNewContactDialog, closeNewContactDialog } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

@@ -59,11 +59,10 @@ class FuseUtils {
 		}
 
 		const propArray = Object.keys(itemObj);
-
+		console.log(propArray);
 		for (let i = 0; i < propArray.length; i += 1) {
 			const prop = propArray[i];
 			const value = itemObj[prop];
-
 			if (typeof value === 'string') {
 				if (this.searchInString(value, searchText)) {
 					return true;

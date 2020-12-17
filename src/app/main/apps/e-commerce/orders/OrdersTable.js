@@ -14,12 +14,15 @@ import OrdersStatus from '../order/OrdersStatus';
 import { selectOrders, getOrders } from '../store/ordersSlice';
 import OrdersTableHead from './OrdersTableHead';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+import { CSVLink } from 'react-csv';
 
 function OrdersTable(props) {
 	const dispatch = useDispatch();
 	const orders = useSelector(selectOrders);
 	const searchText = useSelector(({ eCommerceApp }) => eCommerceApp.orders.searchText);
-	
+	const contactDialog = useSelector(({ eCommerceApp }) => eCommerceApp.contacts.contactDialog);
+
 	const [selected, setSelected] = useState([]);
 	const [data, setData] = useState([]);
 	const [page, setPage] = useState(0);
@@ -29,28 +32,18 @@ function OrdersTable(props) {
 		id: null
 	});
 
-	console.log("Data: ", data)
-	useEffect(()=>{
-		  async function fetchAPI() {
-			const response = await axios.get(`${process.env.REACT_APP_API_URI}/supplier`, {
-				headers: {'Content-Type': 'application/json'}});
-			setData(response.data);
-		  }
-	
-		  fetchAPI();
-		},[]);
-
+	console.log('Data: ', contactDialog);
 	useEffect(() => {
 		async function fetchAPI() {
-			const response = await axios.post(`${process.env.REACT_APP_API_URI}/supplierCategories`,{
-				supplierId:"94fa20cb-3a12-11eb-b648-00d86104e19d"
+			const response = await axios.get(`${process.env.REACT_APP_API_URI}/supplier`, {
+				headers: { 'Content-Type': 'application/json' }
 			});
-			console.log("SCATE",response)
-			// setData(response.data);
-		  }
-	
+			setData(response.data);
+			console.log('Hiii');
+		}
+
 		fetchAPI();
-	}, []);
+	}, [contactDialog]);
 
 	function handleRequestSort(event, property) {
 		const id = property;
@@ -75,7 +68,7 @@ function OrdersTable(props) {
 	}
 
 	function handleClick(item) {
-		props.history.push(`/apps/e-commerce/orders/${item.scode}`, {item});
+		props.history.push(`/apps/e-commerce/orders/${item.scode}`, { item });
 	}
 
 	function handleCheck(event, id) {
@@ -105,6 +98,18 @@ function OrdersTable(props) {
 	// return (<></>)
 	return (
 		<div className="w-full flex flex-col">
+			<div className="">
+				<CSVLink data={data} filename={'supplier'}>
+					<Button
+						variant="contained"
+						color="primary"
+						className="w-full"
+						// onClick={ev => dispatch(openNewContactDialog())}
+					>
+						Export Excel
+					</Button>
+				</CSVLink>
+			</div>
 			<FuseScrollbars className="flex-grow overflow-x-auto">
 				<Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
 					<OrdersTableHead
@@ -143,7 +148,7 @@ function OrdersTable(props) {
 						)
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map(n => {
-								console.log(n)
+								console.log(n);
 								const isSelected = selected.indexOf(n.id) !== -1;
 								return (
 									<TableRow
