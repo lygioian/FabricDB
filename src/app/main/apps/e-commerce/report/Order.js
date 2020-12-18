@@ -22,7 +22,8 @@ import { getOrder } from '../store/orderSlice';
 import OrderInvoice from './OrderInvoice';
 import OrdersStatus from './OrdersStatus';
 import axios from 'axios';
-
+import Button from '@material-ui/core/Button';
+import { CSVLink } from 'react-csv';
 function Marker(props) {
 	return (
 		<Tooltip title={props.text} placement="top">
@@ -220,7 +221,8 @@ function Order(props) {
 													<tr>
 														<th>Name</th>
 														<th>Total_Price</th>
-														<th>Date-time</th>
+														<th>Date</th>
+														<th>Time</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -241,9 +243,12 @@ function Order(props) {
 																</td>
 																<td>
 																	<Typography className="truncate">
-																		{new Date(order.p_date).toLocaleDateString() +
-																			' ' +
-																			order.p_time}
+																		{new Date(order.p_date).toLocaleDateString()}
+																	</Typography>
+																</td>
+																<td>
+																	<Typography className="truncate">
+																		{order.p_time}
 																	</Typography>
 																</td>
 															</tr>
@@ -256,6 +261,16 @@ function Order(props) {
 								</div>
 							</div>
 						)}
+						<CSVLink data={data} filename={'report.csv'}>
+							<Button
+								variant="contained"
+								color="primary"
+								className="w-full"
+								// onClick={ev => dispatch(openNewContactDialog())}
+							>
+								Export Excel
+							</Button>
+						</CSVLink>
 					</div>
 				)
 			}

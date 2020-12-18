@@ -172,7 +172,7 @@ function OrdersTable(props) {
 									{n.price}
 								</TableCell>
 								<TableCell className="p-4 md:p-16" component="th" scope="row">
-									{n.created_at}
+									{new Date(n.created_at).toLocaleDateString()}
 								</TableCell>
 								<TableCell className="p-4 md:p-16" component="th" scope="row">
 									{n.quantity}
@@ -187,7 +187,7 @@ function OrdersTable(props) {
 	return (
 		<div className="w-full flex flex-col">
 			<div className="">
-				<CSVLink data={data} filename={'import'}>
+				<CSVLink data={data} filename={'import.csv'}>
 					<Button
 						variant="contained"
 						color="primary"

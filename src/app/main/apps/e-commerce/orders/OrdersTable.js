@@ -112,7 +112,7 @@ function OrdersTable(props) {
 	return (
 		<div className="w-full flex flex-col">
 			<div className="">
-				<CSVLink data={data} filename={'supplier'}>
+				<CSVLink data={data} filename={'supplier.csv'}>
 					<Button
 						variant="contained"
 						color="primary"
