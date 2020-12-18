@@ -173,7 +173,7 @@ function Order(props) {
 							<div className="flex flex-col min-w-0 items-center sm:items-start">
 								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 									<Typography className="text-16 sm:text-20 truncate">
-										{`${order.customer_fname} ${order.customer_lname}`}
+										{`Customer Name: ${order.customer_fname} ${order.customer_lname}`}
 									</Typography>
 								</FuseAnimate>
 
@@ -219,8 +219,8 @@ function Order(props) {
 											<table className="simple">
 												<thead>
 													<tr>
-														<th>Customer Name</th>
-														<th>Employee Name</th>
+														<th>Emp Firstname</th>
+														<th>Emp Lastname</th>
 														<th>Fabric Name</th>
 														<th>Total_Price</th>
 														<th>Date</th>
@@ -234,14 +234,14 @@ function Order(props) {
 																<td>
 																	<div className="flex items-center">
 																		<Typography className="truncate mx-8">
-																			{`${order.customer_fname} ${order.customer_lname}`}
+																			{`${order.employee_fname} `}
 																		</Typography>
 																	</div>
 																</td>
 																<td>
 																	<div className="flex items-center">
 																		<Typography className="truncate mx-8">
-																			{`${order.employee_fname} ${order.employee_lname}`}
+																			{`${order.employee_lname}`}
 																		</Typography>
 																	</div>
 																</td>
