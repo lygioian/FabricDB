@@ -28,7 +28,7 @@ function OrdersHeader(props) {
 				</FuseAnimate>
 			</div>
 
-			<div className="flex flex-1 items-center justify-center px-12">
+			{/* <div className="flex flex-1 items-center justify-center px-12">
 				<ThemeProvider theme={mainTheme}>
 					<FuseAnimate animation="transition.slideDownIn" delay={300}>
 						<Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8" elevation={1}>
@@ -48,7 +48,7 @@ function OrdersHeader(props) {
 						</Paper>
 					</FuseAnimate>
 				</ThemeProvider>
-			</div>
+			</div> */}
 		</div>
 	);
 }

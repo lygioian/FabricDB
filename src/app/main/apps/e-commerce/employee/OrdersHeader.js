@@ -8,6 +8,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMainTheme } from 'app/store/fuse/settingsSlice';
 import { setOrdersSearchText } from '../store/ordersSlice';
+import { openNewContactDialog } from '../store/contactsSlice';
+import Button from '@material-ui/core/Button';
 
 function OrdersHeader(props) {
 	const dispatch = useDispatch();
@@ -26,6 +28,16 @@ function OrdersHeader(props) {
 						List Employee
 					</Typography>
 				</FuseAnimate>
+				<div className="p-24">
+					<Button
+						variant="contained"
+						color="default"
+						className="w-full"
+						onClick={ev => dispatch(openNewContactDialog())}
+					>
+						New Employee
+					</Button>
+				</div>
 			</div>
 
 			<div className="flex flex-1 items-center justify-center px-12">

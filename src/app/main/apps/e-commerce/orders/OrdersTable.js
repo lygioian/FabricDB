@@ -27,10 +27,22 @@ function OrdersTable(props) {
 	const [data, setData] = useState([]);
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const [orderData, setOrderData] = useState([]);
 	const [order, setOrder] = useState({
 		direction: 'asc',
 		id: null
 	});
+
+	useEffect(() => {
+		setData([]);
+
+		if (searchText.length !== 0) {
+			setData(FuseUtils.filterArrayByString(orderData, searchText));
+			setPage(0);
+		} else {
+			setData(orderData);
+		}
+	}, [searchText]);
 
 	console.log('Data: ', contactDialog);
 	useEffect(() => {
@@ -39,6 +51,7 @@ function OrdersTable(props) {
 				headers: { 'Content-Type': 'application/json' }
 			});
 			setData(response.data);
+			setOrderData(response.data);
 			console.log('Hiii');
 		}
 
@@ -157,7 +170,7 @@ function OrdersTable(props) {
 										role="checkbox"
 										aria-checked={isSelected}
 										tabIndex={-1}
-										key={n.id}
+										key={n.scode}
 										selected={isSelected}
 										onClick={event => handleClick(n)}
 									>

@@ -20,27 +20,42 @@ function OrdersTable(props) {
 	const dispatch = useDispatch();
 	const orders = useSelector(selectOrders);
 	const searchText = useSelector(({ eCommerceApp }) => eCommerceApp.orders.searchText);
+	const contactDialog = useSelector(({ eCommerceApp }) => eCommerceApp.contacts.contactDialog);
 
 	const [selected, setSelected] = useState([]);
 	const [data, setData] = useState([]);
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const [orderData, setOrderData] = useState([]);
 	const [order, setOrder] = useState({
 		direction: 'asc',
 		id: null
 	});
 
 	console.log('Data: ', data);
+
 	useEffect(() => {
 		async function fetchAPI() {
 			const response = await axios.get(`${process.env.REACT_APP_API_URI}/customer`, {
 				headers: { 'Content-Type': 'application/json' }
 			});
 			setData(response.data);
+			setOrderData(response.data);
 		}
 
 		fetchAPI();
-	}, []);
+	}, [contactDialog]);
+
+	useEffect(() => {
+		setData([]);
+
+		if (searchText.length !== 0) {
+			setData(FuseUtils.filterArrayByString(orderData, searchText));
+			setPage(0);
+		} else {
+			setData(orderData);
+		}
+	}, [searchText]);
 
 	function handleRequestSort(event, property) {
 		const id = property;

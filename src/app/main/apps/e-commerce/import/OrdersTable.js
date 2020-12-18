@@ -16,10 +16,13 @@ import OrdersTableHead from './OrdersTableHead';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import { CSVLink } from 'react-csv';
+import useForceUpdate from 'use-force-update';
+
 function OrdersTable(props) {
 	const dispatch = useDispatch();
 	const orders = useSelector(selectOrders);
 	const searchText = useSelector(({ eCommerceApp }) => eCommerceApp.orders.searchText);
+	const forceUpdate = useForceUpdate();
 
 	const [selected, setSelected] = useState([]);
 	const [data, setData] = useState([]);
@@ -37,6 +40,7 @@ function OrdersTable(props) {
 			const response = await axios.get(`${process.env.REACT_APP_API_URI}/import`, {
 				headers: { 'Content-Type': 'application/json' }
 			});
+			console.log('hihihihih');
 			setData(response.data);
 			setOrderData(response.data);
 		}
@@ -45,13 +49,15 @@ function OrdersTable(props) {
 	}, []);
 
 	useEffect(() => {
+		setData([]);
+
 		if (searchText.length !== 0) {
-			setData(FuseUtils.filterArrayByString(data, searchText));
+			setData(FuseUtils.filterArrayByString(orderData, searchText));
 			setPage(0);
 		} else {
 			setData(orderData);
 		}
-	}, [orders, searchText]);
+	}, [searchText]);
 
 	function handleRequestSort(event, property) {
 		const id = property;
@@ -103,6 +109,80 @@ function OrdersTable(props) {
 	function handleChangeRowsPerPage(event) {
 		setRowsPerPage(event.target.value);
 	}
+
+	function bodyTable(tableData) {
+		return (
+			<TableBody>
+				{_.orderBy(
+					tableData,
+					[
+						o => {
+							switch (order.id) {
+								case 'id': {
+									return parseInt(o.id, 10);
+								}
+								case 'customer': {
+									return o.sname;
+								}
+								case 'payment': {
+									return o.sname;
+								}
+								case 'status': {
+									return o.sname;
+								}
+								default: {
+									return o.sname;
+								}
+							}
+						}
+					],
+					[order.direction]
+				)
+					.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+					.map(n => {
+						console.log(n);
+						const isSelected = selected.indexOf(n.id) !== -1;
+						return (
+							<TableRow
+								className="h-64 cursor-pointer"
+								hover
+								role="checkbox"
+								aria-checked={isSelected}
+								tabIndex={-1}
+								key={n.id + n.fcode}
+								selected={isSelected}
+								// onClick={event => handleClick(n)}
+							>
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.fcode}
+								</TableCell>
+
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.scode}
+								</TableCell>
+
+								<TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
+									{n.fname}
+								</TableCell>
+
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.sname}
+								</TableCell>
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.price}
+								</TableCell>
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.created_at}
+								</TableCell>
+								<TableCell className="p-4 md:p-16" component="th" scope="row">
+									{n.quantity}
+								</TableCell>
+							</TableRow>
+						);
+					})}
+			</TableBody>
+		);
+	}
 	// return (<></>)
 	return (
 		<div className="w-full flex flex-col">
@@ -128,75 +208,7 @@ function OrdersTable(props) {
 						rowCount={data.length}
 					/>
 
-					<TableBody>
-						{_.orderBy(
-							data,
-							[
-								o => {
-									switch (order.id) {
-										case 'id': {
-											return parseInt(o.id, 10);
-										}
-										case 'customer': {
-											return o.sname;
-										}
-										case 'payment': {
-											return o.sname;
-										}
-										case 'status': {
-											return o.sname;
-										}
-										default: {
-											return o.sname;
-										}
-									}
-								}
-							],
-							[order.direction]
-						)
-							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							.map(n => {
-								console.log(n);
-								const isSelected = selected.indexOf(n.id) !== -1;
-								return (
-									<TableRow
-										className="h-64 cursor-pointer"
-										hover
-										role="checkbox"
-										aria-checked={isSelected}
-										tabIndex={-1}
-										key={n.id}
-										selected={isSelected}
-										// onClick={event => handleClick(n)}
-									>
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.fcode}
-										</TableCell>
-
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.scode}
-										</TableCell>
-
-										<TableCell className="p-4 md:p-16" component="th" scope="row" align="left">
-											{n.fname}
-										</TableCell>
-
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.sname}
-										</TableCell>
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.price}
-										</TableCell>
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.created_at}
-										</TableCell>
-										<TableCell className="p-4 md:p-16" component="th" scope="row">
-											{n.quantity}
-										</TableCell>
-									</TableRow>
-								);
-							})}
-					</TableBody>
+					{bodyTable(data)}
 				</Table>
 			</FuseScrollbars>
 

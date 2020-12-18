@@ -53,7 +53,7 @@ function JWTLoginTab(props) {
 					type="text"
 					name="email"
 					label="Username/Email"
-					value="admin"
+					value=""
 					validations={{
 						minLength: 4
 					}}
@@ -78,7 +78,7 @@ function JWTLoginTab(props) {
 					type="password"
 					name="password"
 					label="Password"
-					value="admin"
+					value=""
 					validations={{
 						minLength: 4
 					}}
@@ -114,8 +114,6 @@ function JWTLoginTab(props) {
 					Login
 				</Button>
 			</Formsy>
-
-		
 		</div>
 	);
 }
