@@ -81,7 +81,7 @@ function OrdersTable(props) {
 	}
 
 	function handleClick(item) {
-		props.history.push(`/apps/e-commerce/orders/${item.scode}`, { item });
+		props.history.push(`/apps/e-commerce/orders/${item.scode}`, { ...item });
 	}
 
 	function handleCheck(event, id) {

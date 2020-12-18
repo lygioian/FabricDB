@@ -19,6 +19,10 @@ const ECommerceAppConfig = {
 			component: React.lazy(() => import('./order/Order'))
 		},
 		{
+			path: '/apps/report/:orderId',
+			component: React.lazy(() => import('./report/Order'))
+		},
+		{
 			path: '/supplier',
 			component: React.lazy(() => import('./orders/Orders'))
 		},

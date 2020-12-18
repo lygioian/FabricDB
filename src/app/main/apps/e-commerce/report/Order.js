@@ -36,8 +36,6 @@ function Order(props) {
 	// const order = useSelector(({ eCommerceApp }) => eCommerceApp.order);
 	const theme = useTheme();
 	const [data, setData] = useState([]);
-	const [phone, setPhone] = useState([]);
-
 	const [order, setOrder] = useState({
 		id: '1',
 		reference: '70d4d7d0',
@@ -130,30 +128,18 @@ function Order(props) {
 		console.log('Deep', routeParams);
 		async function fetchAPI() {
 			let data = {
-				supplierId: routeParams.orderId
+				customerCode: routeParams.orderId
 			};
-			const response = await axios.post(`${process.env.REACT_APP_API_URI}/supplierCategories`, data, {
+			const response = await axios.post(`${process.env.REACT_APP_API_URI}/makeReport`, data, {
 				headers: { 'Content-Type': 'application/json' }
 			});
 			console.log(response);
-			setData(response.data);
-		}
-
-		async function fetchAPI2() {
-			let data = {
-				supplierId: routeParams.orderId
-			};
-			const response = await axios.post(`${process.env.REACT_APP_API_URI}/getPhoneOfSupplier`, data, {
-				headers: { 'Content-Type': 'application/json' }
-			});
-			console.log(response);
-			setPhone(response.data.data);
+			setData(response.data.data);
 		}
 
 		fetchAPI();
-		fetchAPI2();
 	}, [dispatch, routeParams]);
-	console.log('REA', props);
+	console.log('REA', data);
 	function handleChangeTab(event, value) {
 		setTabValue(value);
 	}
@@ -173,13 +159,13 @@ function Order(props) {
 									className="normal-case flex items-center sm:mb-12"
 									component={Link}
 									role="button"
-									to="/supplier"
+									to="/customer"
 									color="inherit"
 								>
 									<Icon className="text-20">
 										{theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
 									</Icon>
-									<span className="mx-4">Supplier</span>
+									<span className="mx-4">Customer</span>
 								</Typography>
 							</FuseAnimate>
 
@@ -220,24 +206,11 @@ function Order(props) {
 						{tabValue === 0 && (
 							<div>
 								<div className="pb-48">
-									<div className="flex-col pb-16 flex items-center">
+									<div className="pb-16 flex items-center">
 										<Icon color="action">account_circle</Icon>
 										<Typography className="h2 mx-16" color="textSecondary">
-											Supplier
+											Order Report
 										</Typography>
-										{phone.map(e => {
-											return (
-												<FuseAnimate
-													className=""
-													animation="transition.slideLeftIn"
-													delay={300}
-												>
-													<Typography variant="caption" color="textSecondary">
-														{` Phone : ${e.phone_number}`}
-													</Typography>
-												</FuseAnimate>
-											);
-										})}
 									</div>
 
 									<div className="mb-24">
@@ -246,8 +219,8 @@ function Order(props) {
 												<thead>
 													<tr>
 														<th>Name</th>
-														<th>Color</th>
-														<th>Quantity</th>
+														<th>Total_Price</th>
+														<th>Date-time</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -263,12 +236,14 @@ function Order(props) {
 																</td>
 																<td>
 																	<Typography className="truncate">
-																		{order.color}
+																		{order.total_price}
 																	</Typography>
 																</td>
 																<td>
 																	<Typography className="truncate">
-																		{order.quantity}
+																		{new Date(order.p_date).toLocaleDateString() +
+																			' ' +
+																			order.p_time}
 																	</Typography>
 																</td>
 															</tr>

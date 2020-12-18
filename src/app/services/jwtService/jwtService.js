@@ -61,46 +61,46 @@ class JwtService extends FuseUtils.EventEmitter {
 	signInWithEmailAndPassword = (email, password) => {
 		return new Promise((resolve, reject) => {
 			axios
-			.post(`${process.env.REACT_APP_API_URI}/login`, {
+				.post(`${process.env.REACT_APP_API_URI}/login`, {
 					username: email,
 					password: password
-			})
-			.then(response => {
-				console.log(response)
-				if (response.data) {
-					this.setSession(response.data.accessToken);
-					let user = {
-						uuid: 'XgbuVEXBU6gtSKdbTYR1Zbbby1i3',
-						from: 'custom-db',
-						password: 'staff',
-						role: 'staff',
-						data: {
-							displayName: 'Arnold Matlock',
-							photoURL: 'assets/images/avatars/Arnold.jpg',
-							email: 'staff',
-					
-							shortcuts: ['calendar', 'mail', 'contacts', 'todo']
-						}
+				})
+				.then(response => {
+					console.log(response);
+					if (response.data) {
+						this.setSession(response.data.accessToken);
+						let user = {
+							uuid: 'XgbuVEXBU6gtSKdbTYR1Zbbby1i3',
+							from: 'custom-db',
+							password: 'staff',
+							role: 'staff',
+							data: {
+								displayName: 'Arnold Matlock',
+								photoURL: 'assets/images/avatars/Arnold.jpg',
+								email: 'staff',
+
+								shortcuts: ['calendar', 'mail', 'contacts', 'todo']
+							}
+						};
+						resolve(user);
+					} else {
+						console.log('Errr');
+						const error = {
+							email: 'Check your username/email',
+							password: 'Check your password'
+						};
+						reject(error);
 					}
-					resolve(user);
-				} else {
-					console.log("Errr")
+				})
+				.catch(err => {
+					console.log('Errr');
 					const error = {
 						email: 'Check your username/email',
 						password: 'Check your password'
 					};
 					reject(error);
-				}
-			}).catch(err=>{
-				console.log("Errr")
-					const error = {
-						email: 'Check your username/email',
-						password: 'Check your password'
-					};
-				reject(error);
-			});
-			
-	})
+				});
+		});
 	};
 
 	signInWithToken = () => {
@@ -120,10 +120,10 @@ class JwtService extends FuseUtils.EventEmitter {
 								displayName: 'Arnold Matlock',
 								photoURL: 'assets/images/avatars/Arnold.jpg',
 								email: 'staff',
-						
+
 								shortcuts: ['calendar', 'mail', 'contacts', 'todo']
 							}
-						}
+						};
 						resolve(user);
 					} else {
 						this.logout();
@@ -132,7 +132,7 @@ class JwtService extends FuseUtils.EventEmitter {
 				})
 				.catch(error => {
 					this.logout();
-					console.log(error.response)
+					// console.log(error.response)
 					reject(new Error('Failed to login with token. Invalid'));
 				});
 		});
@@ -156,8 +156,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	logout = () => {
 		this.setSession(null);
-		axios
-			.post(`${process.env.REACT_APP_API_URI}/logout`)
+		axios.post(`${process.env.REACT_APP_API_URI}/logout`);
 	};
 
 	isAuthTokenValid = access_token => {
