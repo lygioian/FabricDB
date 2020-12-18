@@ -35,7 +35,7 @@ function OrdersHeader(props) {
 						className="w-full"
 						onClick={ev => dispatch(openNewContactDialog())}
 					>
-						New Employee
+						New Customer
 					</Button>
 				</div>
 			</div>
