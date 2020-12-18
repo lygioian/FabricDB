@@ -82,7 +82,7 @@ function OrdersTable(props) {
 	}
 
 	function handleClick(item) {
-		props.history.push(`/apps/idetail/:orderId/${item.scode}`);
+		props.history.push(`/apps/idetail/${item.scode}`);
 	}
 
 	function handleCheck(event, id) {

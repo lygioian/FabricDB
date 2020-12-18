@@ -126,7 +126,7 @@ function Order(props) {
 	const [tabValue, setTabValue] = useState(0);
 	const [map, setMap] = useState('shipping');
 
-	useDeepCompareEffect(() => {
+	useEffect(() => {
 		console.log('Deep', routeParams);
 		async function fetchAPI() {
 			let data = {
@@ -173,7 +173,7 @@ function Order(props) {
 									className="normal-case flex items-center sm:mb-12"
 									component={Link}
 									role="button"
-									to="/supplier"
+									to="/import"
 									color="inherit"
 								>
 									<Icon className="text-20">
