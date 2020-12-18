@@ -82,7 +82,7 @@ function OrdersTable(props) {
 	}
 
 	function handleClick(item) {
-		props.history.push(`/apps/e-commerce/orders/${item.id}`);
+		props.history.push(`/apps/idetail/:orderId/${item.scode}`);
 	}
 
 	function handleCheck(event, id) {
@@ -151,7 +151,7 @@ function OrdersTable(props) {
 								tabIndex={-1}
 								key={n.id + n.fcode}
 								selected={isSelected}
-								// onClick={event => handleClick(n)}
+								onClick={event => handleClick(n)}
 							>
 								<TableCell className="p-4 md:p-16" component="th" scope="row">
 									{n.fcode}
