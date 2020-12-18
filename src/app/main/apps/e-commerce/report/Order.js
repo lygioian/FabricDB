@@ -219,6 +219,8 @@ function Order(props) {
 											<table className="simple">
 												<thead>
 													<tr>
+														<th>Customer Name</th>
+														<th>Fabric Name</th>
 														<th>Name</th>
 														<th>Total_Price</th>
 														<th>Date</th>
@@ -229,6 +231,20 @@ function Order(props) {
 													{data.map(order => {
 														return (
 															<tr>
+																<td>
+																	<div className="flex items-center">
+																		<Typography className="truncate mx-8">
+																			{`${order.customer_fname} ${order.customer_lname}`}
+																		</Typography>
+																	</div>
+																</td>
+																<td>
+																	<div className="flex items-center">
+																		<Typography className="truncate mx-8">
+																			{`${order.employee_fname} ${order.employee_lname}`}
+																		</Typography>
+																	</div>
+																</td>
 																<td>
 																	<div className="flex items-center">
 																		<Typography className="truncate mx-8">

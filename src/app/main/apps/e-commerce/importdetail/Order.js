@@ -245,7 +245,7 @@ function Order(props) {
 											<table className="simple">
 												<thead>
 													<tr>
-														<th>Name</th>
+														<th>Fabric Name</th>
 														<th>Color</th>
 														<th>Quantity</th>
 													</tr>
