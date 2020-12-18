@@ -220,8 +220,8 @@ function Order(props) {
 												<thead>
 													<tr>
 														<th>Customer Name</th>
+														<th>Employee Name</th>
 														<th>Fabric Name</th>
-														<th>Name</th>
 														<th>Total_Price</th>
 														<th>Date</th>
 														<th>Time</th>
