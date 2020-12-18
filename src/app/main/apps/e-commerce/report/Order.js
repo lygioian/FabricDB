@@ -173,7 +173,9 @@ function Order(props) {
 							<div className="flex flex-col min-w-0 items-center sm:items-start">
 								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 									<Typography className="text-16 sm:text-20 truncate">
-										{`Customer Name: ${order.customer_fname} ${order.customer_lname}`}
+										{`Customer Name: ${data.length > 0 ? data[0].customer_fname : ''} ${
+											data.length > 0 ? data[0].customer_lname : ''
+										}`}
 									</Typography>
 								</FuseAnimate>
 
